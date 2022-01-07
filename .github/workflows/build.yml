@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "ci"
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout SDK
+        uses: actions/checkout@v2
+        with:
+          repository: 'gl-inet/sdk'
+          path: 'sdk'
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt upgrade -y
+          sudo apt install asciidoc bash bc binutils bzip2 fastjar flex gawk \
+          gcc genisoimage gettext git intltool jikespg libgtk2.0-dev \
+          libncurses5-dev libssl1.0-dev make mercurial patch perl-modules \
+          python2.7-dev rsync ruby sdcc subversion unzip util-linux wget \
+          xsltproc zlib1g-dev zlib1g-dev -y
+      - name: Download SDK
+        run: cd sdk && ./download.sh siflower-1806
+      - name: Checkout package
+        uses: actions/checkout@v2
+        with:
+          path: 'clash-openwrt'
+      - name: Build package
+        run: cd clash-openwrt && sh compile.sh
+        env:
+          sdk_home_dir: ${{ github.workspace }}/sdk/sdk/1806/siflower
+      - name: Archive ipk
+        uses: actions/upload-artifact@v2
+        with:
+          path: |
+            clash-openwrt/*.ipk
