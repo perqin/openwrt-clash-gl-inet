@@ -16,10 +16,9 @@ if [ -n "$golang_commit" ] ; then
 		tar -xz -C "feeds/packages/lang" --strip=2 "packages-$golang_commit/lang/golang"
 fi
 
-echo "golang Makefile >>>>>>>>"
-cat feeds/packages/lang/golang/golang/Makefile
-echo "golang Makefile <<<<<<<<"
+./scripts/feeds install -a
 
+rm -rf "package/$package_name"
 ln -sf "$dir" "package/$package_name"
 
 make package/$package_name/clean
