@@ -11,8 +11,9 @@ jobs:
   Build and Release:
     runs-on: ubuntu-18.04
     strategy:
-      # Only siflower-1806 (sf1200/sft1200) is tested; See https://github.com/gl-inet/sdk/blob/master/download.sh#L16-L24 for the full targets list
-      target: ['siflower-1806']
+      matrix:
+        # Only siflower-1806 (sf1200/sft1200) is tested; See https://github.com/gl-inet/sdk/blob/master/download.sh#L16-L24 for the full targets list
+        target: ['siflower-1806']
     steps:
       - name: Setup environment variable
         run: |
