@@ -1,4 +1,4 @@
-# openwrt clash gl-inet
+# openwrt-clash-gl-inet
 
 [Clash](https://github.com/Dreamacro/clash) OpenWrt package for GL-iNet routers.
 
