@@ -16,10 +16,13 @@ if [ -n "$golang_commit" ] ; then
 		tar -xz -C "feeds/packages/lang" --strip=2 "packages-$golang_commit/lang/golang"
 fi
 
+echo "golang Makefile >>>>>>>>"
+cat feeds/packages/lang/golang/golang/Makefile
+echo "golang Makefile <<<<<<<<"
+
 ln -sf "$dir" "package/$package_name"
 
 make package/$package_name/clean
 make package/$package_name/compile V=s
 
 find "$sdk_home_dir/bin/" -type f -name "${package_name}*.ipk" -exec cp -f {} "$dir" \;
-
