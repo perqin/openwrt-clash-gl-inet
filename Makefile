@@ -18,9 +18,10 @@ PKG_USE_MIPS16:=0
 
 GO_PKG:=github.com/Dreamacro/clash
 GO_PKG_LDFLAGS:=-s -w
+# golang-package.mk will split "$GO_PKG_LDFLAGS_X" by whitespace, so we replace all whitespace with underscore here.
 GO_PKG_LDFLAGS_X:= \
 	github.com/Dreamacro/clash/constant.Version=$(PKG_VERSION) \
-	github.com/Dreamacro/clash/constant.BuildTime=$(shell date -u)
+	github.com/Dreamacro/clash/constant.BuildTime=$(subst $() $(),_,$(shell date -u))
 
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk

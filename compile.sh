@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-dir="$(cd "$(dirname "$0") ; pwd)"
+dir="$(cd "$(dirname "$0")" ; pwd)"
 
 package_name="clash"
 golang_commit="eac2e91a285e9df119ce1aac0f4fe340cc54a6e4"
