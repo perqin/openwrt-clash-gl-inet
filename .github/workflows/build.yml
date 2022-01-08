@@ -45,7 +45,7 @@ jobs:
       - name: Build package
         run: cd clash-openwrt && sh compile.sh
         env:
-          sdk_home_dir: ${{ github.workspace }}/sdk/sdk/$TARGET_VERSION/$TARGET_NAME
+          sdk_home_dir: ${{ github.workspace }}/sdk/sdk/${{ env.TARGET_VERSION }}/${{ env.TARGET_NAME }}
       - name: Archive ipk
         uses: actions/upload-artifact@v2
         with:
