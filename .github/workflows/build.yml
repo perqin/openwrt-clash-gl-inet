@@ -8,9 +8,18 @@ on:
       - "v*"
 
 jobs:
-  build:
+  Build and Release:
     runs-on: ubuntu-18.04
+    strategy:
+      # Only siflower-1806 (sf1200/sft1200) is tested; See https://github.com/gl-inet/sdk/blob/master/download.sh#L16-L24 for the full targets list
+      target: ['siflower-1806']
     steps:
+      - name: Setup environment variable
+        run: |
+          echo TARGET_VERSION="${TARGET#*-}" >> $GITHUB_ENV
+          echo TARGET_NAME="${TARGET%-*}" >> $GITHUB_ENV
+        env:
+          TARGET: ${{ matrix.target }}
       - name: Checkout SDK
         uses: actions/checkout@v2
         with:
@@ -26,7 +35,7 @@ jobs:
           python2.7-dev rsync ruby sdcc subversion unzip util-linux wget \
           xsltproc zlib1g-dev zlib1g-dev -y
       - name: Download SDK
-        run: cd sdk && ./download.sh siflower-1806
+        run: cd sdk && ./download.sh $TARGET_NAME-$TARGET_VERSION
       - name: Checkout package
         uses: actions/checkout@v2
         with:
@@ -34,7 +43,7 @@ jobs:
       - name: Build package
         run: cd clash-openwrt && sh compile.sh
         env:
-          sdk_home_dir: ${{ github.workspace }}/sdk/sdk/1806/siflower
+          sdk_home_dir: ${{ github.workspace }}/sdk/sdk/$TARGET_VERSION/$TARGET_NAME
       - name: Archive ipk
         uses: actions/upload-artifact@v2
         with:
